@@ -3,48 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>本日のセットリスト</title>
+  <title>本日のタイムテーブル</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 <div class="container">
-  <h1>セットリスト</h1>
+  <header class="page-header">
+    <h1>本日のタイムテーブル</h1>
+    <a href="another-page.html" class="nav-link">今日の曲一覧を見る &gt;</a>
+  </header>
+
   <div id="setlist">
-    <div class="container">
-      <h1>セットリスト</h1>
-
-      <a href="another-page.html">別のページへ移動</a>
-
-      <div id="setlist">
-      </div>
-    </div>
     <div class="band" id="band-a" data-start-time="20:00" data-end-time="21:00">
       <h2>バンド名A</h2>
       <p class="live-time">20:00 - 21:00</p>
-      <ul>
-        <li>1. 曲名あ</li>
-      </ul>
+      <p class="song-preview">曲名あ, etc.</p>
     </div>
 
     <div class="band" id="band-b" data-start-time="21:00" data-end-time="22:00">
       <h2>バンド名B</h2>
       <p class="live-time">21:00 - 22:00</p>
-      <ul>
-        <li>1. 曲名か</li>
-      </ul>
+      <p class="song-preview">曲名か, etc.</p>
     </div>
 
     <div class="band" id="band-c" data-start-time="22:00" data-end-time="23:00">
       <h2>バンド名C</h2>
       <p class="live-time">22:00 - 23:00</p>
-      <ul>
-        <li>1. 曲名さ</li>
-      </ul>
+      <p class="song-preview">曲名さ, etc.</p>
     </div>
-
   </div>
 </div>
+<script src="./js/auth.js"></script>
 <script src="./js/app.js"></script>
 </body>
 </html>
