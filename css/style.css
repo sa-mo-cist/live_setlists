@@ -1,8 +1,8 @@
-/* ... 既存のスタイル ... */
-
+/* 基本スタイル */
 body {
+  visibility: hidden; /* 認証が完了するまで非表示にする */
   font-family: sans-serif;
-  margin: 1em; /* スマホ表示を考慮してマージンを調整 */
+  margin: 1em;
   background-color: #f0f0f0;
   color: #333;
 }
@@ -16,7 +16,11 @@ body {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* ... 既存のスタイル ... */
+h1 {
+  color: #d9534f;
+  border-bottom: 2px solid #d9534f;
+  padding-bottom: 0.5em;
+}
 
 .band {
   margin-bottom: 2em;
@@ -26,8 +30,21 @@ body {
   transition: all 0.3s ease;
 }
 
-/* ... 既存のスタイル ... */
+ul {
+  list-style: none;
+  padding-left: 0;
+}
 
+li {
+  padding: 0.5em;
+  border-bottom: 1px dashed #ccc;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+/* ライブ状況に応じたスタイル */
 .current-live {
   border-color: #d9534f;
   box-shadow: 0 0 10px rgba(217, 83, 79, 0.5);
@@ -47,8 +64,6 @@ body {
   font-weight: bold;
   color: #555;
 }
-
-/* ... 既存のレスポンシブ対応スタイル ... */
 
 /* レスポンシブ対応 */
 @media screen and (max-width: 600px) {
