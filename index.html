@@ -1,68 +1,41 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>本日のセットリスト</title>
-    <style>
-      /* ここから下はデザインに関する設定 */
-      body {
-        font-family: sans-serif;
-        margin: 2em;
-        background-color: #f0f0f0;
-        color: #333;
-      }
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 1em;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      }
-      h1 {
-        color: #d9534f;
-        border-bottom: 2px solid #d9534f;
-        padding-bottom: 0.5em;
-      }
-      .band {
-        margin-bottom: 2em;
-      }
-      h2 {
-        color: #5bc0de;
-      }
-      ul {
-        list-style: none;
-        padding-left: 0;
-      }
-      li {
-        padding: 0.5em;
-        border-bottom: 1px dashed #ccc;
-      }
-      li:last-child {
-        border-bottom: none;
-      }
-    </style>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>本日のセットリスト</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
 
-  <body>
-    <div class="container">
-      <h1>セットリスト</h1>
-
-      <div class="band">
-        <h2>バンド名A</h2>
-        <ul>
-          <li>1. 曲名あ</li>
-        </ul>
-      </div>
-
-      <div class="band">
-        <h2>バンド名B</h2>
-        <ul>
-          <li>1. 曲名か</li>
-        </ul>
-      </div>
-
+<body>
+<div class="container">
+  <h1>セットリスト</h1>
+  <div id="setlist">
+    <div class="band" id="band-a" data-start-time="20:00" data-end-time="21:00">
+      <h2>バンド名A</h2>
+      <p class="live-time">20:00 - 21:00</p>
+      <ul>
+        <li>1. 曲名あ</li>
+      </ul>
     </div>
-  </body>
+
+    <div class="band" id="band-b" data-start-time="21:00" data-end-time="22:00">
+      <h2>バンド名B</h2>
+      <p class="live-time">21:00 - 22:00</p>
+      <ul>
+        <li>1. 曲名か</li>
+      </ul>
+    </div>
+
+    <div class="band" id="band-c" data-start-time="22:00" data-end-time="23:00">
+      <h2>バンド名C</h2>
+      <p class="live-time">22:00 - 23:00</p>
+      <ul>
+        <li>1. 曲名さ</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script src="./js/app.js"></script>
+</body>
 </html>
