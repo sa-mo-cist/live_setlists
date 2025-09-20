@@ -3,47 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>管理者ページ</title>
+  <title>管理者メニュー</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <div class="container">
   <header class="page-header">
-    <h1>管理者ページ (曲一覧)</h1>
+    <h1>管理者メニュー</h1>
     <a href="index.html" class="nav-link">&lt; メインメニューに戻る</a>
   </header>
 
-  <div class="song-list-section">
-    <h2>バンド名A</h2>
-    <ul>
-      <li>曲名あ</li>
-      <li>曲名い</li>
-      <li>曲名う</li>
-    </ul>
+  <div class="menu-button-container">
+    <a href="admin-new.html" class="menu-button">新しいバンド情報を登録する</a>
+    <a href="admin-list.html" class="menu-button">登録済みリストの表示・編集</a>
   </div>
-  <div class="song-list-section">
-    <h2>バンド名B</h2>
-    <ul>
-      <li>曲名か</li>
-      <li>曲名き</li>
-      <li>曲名く</li>
-    </ul>
-  </div>
-  <div class="song-list-section">
-    <h2>バンド名C</h2>
-    <ul>
-      <li>曲名さ</li>
-      <li>曲名し</li>
-      <li>曲名す</li>
-    </ul>
-  </div>
+
 </div>
-<script src="./js/auth.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // 管理者ページのパスワードは "b"
-    handleAuth("admin_auth", "b", () => {});
-  });
-</script>
 </body>
 </html>
