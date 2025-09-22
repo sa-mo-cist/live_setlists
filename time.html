@@ -10,32 +10,27 @@
 <div class="container">
   <header class="page-header">
     <h1>本日のタイムテーブル</h1>
+    <button id="refresh-btn" class="refresh-button" onclick="location.reload()">更新</button>
     <a href="index.html" class="nav-link">&lt; メインメニューに戻る</a>
   </header>
 
   <div id="timetable-container">
-
     <section id="live-band-section" class="timetable-section"></section>
-
     <section id="next-band-section" class="timetable-section"></section>
-
     <div class="toggle-section">
-      <button class="toggle-button" data-target="upcoming-bands-list">▼ 控えているバンド</button>
+      <button class="toggle-button" data-target="upcoming-bands-list">► 控えているバンド</button>
       <div id="upcoming-bands-list" class="toggle-content is-hidden">
       </div>
     </div>
 
     <div class="toggle-section">
-      <button class="toggle-button" data-target="finished-bands-list">▼ 終了したバンド</button>
+      <button class="toggle-button" data-target="finished-bands-list">► 終了したバンド</button>
       <div id="finished-bands-list" class="toggle-content is-hidden">
       </div>
     </div>
-
   </div>
 
 </div>
-
 <script type="module" src="./js/app.js"></script>
-
 </body>
 </html>

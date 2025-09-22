@@ -15,6 +15,8 @@
 
   <form id="edit-band-form" class="band-form">
     <div class="form-group">
+      <label for="event-date">開催日</label> <input type="date" id="event-date" required> </div>
+    <div class="form-group">
       <label for="band-name">バンド名</label>
       <input type="text" id="band-name" required>
     </div>
@@ -38,7 +40,7 @@
       <label for="setlist">セットリスト (1行に1曲)</label>
       <textarea id="setlist" rows="5"></textarea>
     </div>
-    <div class="form-group">
+    <div class="form-group form-group-checkbox">
       <label>
         <input type="checkbox" id="is-published">
         すぐに公開する
@@ -47,9 +49,8 @@
 
     <button type="submit" class="menu-button">更新する</button>
   </form>
+
 </div>
-
 <script type="module" src="./js/admin-edit.js"></script>
-
 </body>
 </html>

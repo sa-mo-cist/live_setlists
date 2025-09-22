@@ -1,82 +1,60 @@
 import { db } from './firebase-config.js';
 import { collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// HTML上の各セクションのコンテナ要素を取得
 const liveBandContainer = document.getElementById('live-band-section');
 const nextBandContainer = document.getElementById('next-band-section');
 const upcomingList = document.getElementById('upcoming-bands-list');
 const finishedList = document.getElementById('finished-bands-list');
 const timetableContainer = document.getElementById('timetable-container');
 
-// タイムテーブルを更新するメインの関数
 async function updateTimetable() {
   try {
-    const now = new Date(); // 現在時刻
-
-    // Firestoreから公開中のバンドデータを'order'順で取得
-    const bandsCollectionRef = collection(db, "4th_lives_bands"); // ご自身のコレクションID
+    const now = new Date();
+    const bandsCollectionRef = collection(db, "4th_lives_bands");
     const q = query(bandsCollectionRef, where("isPublished", "==", true), orderBy("order", "asc"));
     const querySnapshot = await getDocs(q);
 
-    // 取得した全バンドを一時的に格納するリスト
     let allBands = [];
     querySnapshot.forEach(doc => {
       allBands.push({ id: doc.id, ...doc.data() });
     });
 
-    // 4つの状態にバンドを分類する
-    let liveBand = null;
-    let nextBand = null;
+    const liveBands = [];
     const upcomingBands = [];
     const finishedBands = [];
-    let foundLive = false;
 
     allBands.forEach(band => {
       const startTime = band.startTime.toDate();
       const endTime = band.endTime.toDate();
-
       if (now >= startTime && now < endTime) {
-        liveBand = band;
-        foundLive = true;
+        liveBands.push(band);
       } else if (now < startTime) {
-        if (!foundLive && !nextBand) {
-          nextBand = band; // まだライブが始まっていない場合、最初のupcomingがnextになる
-        } else {
-          upcomingBands.push(band);
-        }
+        upcomingBands.push(band);
       } else {
         finishedBands.push(band);
       }
     });
 
-    // ライブ中のバンドが見つかった場合、その次のバンドをnextBandに設定
-    if (liveBand) {
-      const liveBandIndex = allBands.findIndex(b => b.id === liveBand.id);
-      if (liveBandIndex + 1 < allBands.length) {
-        nextBand = allBands[liveBandIndex + 1];
-      }
-    }
+    const liveBand = liveBands.length > 0 ? liveBands[0] : null;
+    const nextBand = upcomingBands.length > 0 ? upcomingBands[0] : null;
+    const otherUpcomingBands = upcomingBands.slice(1);
 
-    // HTMLを組み立てて表示
     renderLiveBand(liveBand);
     renderNextBand(nextBand);
-    renderBandList(upcomingList, upcomingBands, false); // false = セットリスト非表示
-    renderBandList(finishedList, finishedBands.reverse(), true); // true = セットリスト表示、逆順で最新の終了バンドが上
+    renderBandList(upcomingList, otherUpcomingBands, false);
+    renderBandList(finishedList, finishedBands.reverse(), true);
 
   } catch (error) {
     console.error("タイムテーブルの更新中にエラーが発生しました: ", error);
   }
 }
 
-
-// --- 表示用HTMLを生成する関数群 ---
-
 function renderLiveBand(band) {
   liveBandContainer.innerHTML = '<h3>演奏中</h3>';
   if (band) {
-    liveBandContainer.innerHTML += createBandCardHTML(band, 'live', true);
+    liveBandContainer.innerHTML += createBandCardHTML(band, 'live', false);
   } else {
-    liveBandContainer.innerHTML += '<p class="no-band-message">現在演奏中のバンドはいません</p>';
+    liveBandContainer.innerHTML += '<p class="no-band-message">少々お待ちください...</p>';
   }
 }
 
@@ -85,7 +63,7 @@ function renderNextBand(band) {
   if (band) {
     nextBandContainer.innerHTML += createBandCardHTML(band, 'next', false);
   } else {
-    nextBandContainer.innerHTML += '<p class="no-band-message">次に演奏予定のバンドはありません</p>';
+    nextBandContainer.innerHTML += '<p class="no-band-message">少々お待ちください...</p>';
   }
 }
 
@@ -121,22 +99,37 @@ function createBandCardHTML(band, status, showSetlist) {
   `;
 }
 
-
-// --- トグル機能 ---
 function setupToggles() {
   timetableContainer.addEventListener('click', (event) => {
-    if (event.target.classList.contains('toggle-button')) {
-      const targetId = event.target.dataset.target;
+    const button = event.target.closest('.toggle-button');
+    if (button) {
+      const targetId = button.dataset.target;
       const targetElement = document.getElementById(targetId);
+
       if (targetElement) {
-        targetElement.classList.toggle('is-hidden');
+        // is-hiddenクラスを付け外しして、表示・非表示を切り替える
+        const isOpening = targetElement.classList.toggle('is-hidden');
+
+        // 表示状態に合わせてボタンのテキストとクラスを変更
+        if (targetElement.classList.contains('is-hidden')) {
+          // 閉じている場合
+          button.innerHTML = `► ${button.innerText.substring(2)}`; //
+          button.classList.remove('is-open');
+        } else {
+          // 開いている場合
+          button.innerHTML = `▼ ${button.innerText.substring(2)}`;
+          button.classList.add('is-open');
+        }
       }
     }
   });
 }
 
-
 // --- 実行処理 ---
-updateTimetable(); // 初回実行
-setInterval(updateTimetable, 60000); // 1分ごとに更新
-setupToggles(); // トグル機能の有効化
+// ページ読み込み時に一度だけ実行
+updateTimetable();
+setupToggles();
+
+// 1分ごとの自動更新はコメントアウト（手動更新ボタンがあるため）
+// もし自動更新もさせたい場合は、以下の行のコメントを外してください。
+// setInterval(updateTimetable, 60000);
