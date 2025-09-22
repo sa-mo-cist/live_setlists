@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>出演者用 コメント編集</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+  <header class="page-header">
+    <h1>コメント編集</h1>
+    <a href="performer-list.html" class="nav-link">&lt; 編集リストに戻る</a>
+  </header>
+
+  <form id="edit-comment-form" class="band-form">
+    <div class="info-group">
+      <strong>バンド名:</strong>
+      <p id="band-name-display">（読み込み中...）</p>
+    </div>
+    <div class="info-group">
+      <strong>出演日時:</strong>
+      <p id="band-time-display">（読み込み中...）</p>
+    </div>
+    <div class="form-group">
+      <label for="comment">一言コメント</label>
+      <textarea id="comment" rows="4"></textarea>
+    </div>
+
+    <button type="submit" class="menu-button">コメントを更新する</button>
+  </form>
+
+</div>
+<script type="module" src="./js/performer-edit.js"></script>
+</body>
+</html>
