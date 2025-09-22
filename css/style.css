@@ -1,6 +1,9 @@
 /* 基本設定 */
 html {
+
   font-size: 14px; /* サイト全体の基準サイズを少し小さくする */
+
+
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
