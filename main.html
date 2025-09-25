@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIVE SETLIST APP</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container main-menu-container">
+  <header class="main-header">
+    <h1>- AWESOME LIVE 2025 -</h1>
+    <div id="clock"></div>
+  </header>
+
+  <div class="menu-button-container">
+<!--    参加者に打ってもらうためにコメントアウト-->
+    <a href="time.html" class="menu-button">本日のタイムテーブル</a>
+    <a href="admin.html" class="menu-button admin-button">管理者ページ</a>
+    <a href="performer-list.html" class="menu-button preformer-button">出演者コメント編集</a>
+  </div>
+</div>
+
+<script>
+  // 現在時刻を表示する時計の機能
+  const clockElement = document.getElementById('clock');
+  function updateClock() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    clockElement.textContent = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+  }
+  // 1秒ごとに時刻を更新
+  setInterval(updateClock, 1000);
+  // 初期表示
+  updateClock();
+</script>
+</body>
+</html>
+
