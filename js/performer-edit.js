@@ -1,6 +1,21 @@
-import { db } from './firebase-config.js';
+import { db, auth } from './firebase-config.js';
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// --- ▼▼▼ 認証ガード (出演者・管理者用) ▼▼▼ ---
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const idTokenResult = await user.getIdTokenResult();
+    const role = idTokenResult.claims.role;
+    if (role !== 'editor' && role !== 'admin') {
+      // 出演者か管理者でなければハブページへ
+      window.location.href = 'main.html';
+    }
+  } else {
+    // 未ログインならログインページへ
+    window.location.href = 'index.html';
+  }
+});
+// --- ▲▲▲ 認証ガード (ここまで) ▲▲▲ ---
 // HTML上の要素を取得
 const form = document.getElementById('edit-comment-form');
 const bandNameDisplay = document.getElementById('band-name-display');

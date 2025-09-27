@@ -1,9 +1,6 @@
 /* 基本設定 */
 html {
-
-  font-size: 14px; /* サイト全体の基準サイズを少し小さくする */
-
-
+  font-size: 14px;
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -17,8 +14,10 @@ body {
   padding: 1em;
 }
 
-/* --- メインメニュー (index.html) --- */
-.main-menu-container {
+/* --- ▼▼▼ 修正箇所 ▼▼▼ --- */
+/* --- ログインページ と メインメニュー 共通のレイアウト --- */
+/*.main-menu-container と重複していたため、.login-container に統合しました */
+.login-container,.main-menu-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,16 +25,28 @@ body {
   height: 100vh;
   text-align: center;
 }
+
+/* --- ログインページ専用のスタイル --- */
+.login-form {
+  width: 80%;
+  max-width: 320px;
+}
+.login-form input {
+  width: 95%; /* paddingを考慮 */
+  padding: 0.8em;
+  font-size: 1.1em;
+  margin-bottom: 1em;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+/* --- ▲▲▲ 修正箇所 (ここまで) ▲▲▲ --- */
+
+
+/* --- メインメニュー (main.html) --- */
 .main-header h1 {
   font-size: 2.5em;
   color: #333;
   margin: 0;
-}
-#clock {
-  font-size: 1.2em;
-  color: #555;
-  margin-top: 0.5em;
-  letter-spacing: 1.5px;
 }
 .menu-button-container {
   margin-top: 3em;
@@ -55,6 +66,8 @@ body {
   border-radius: 8px;
   transition: background-color 0.3s, transform 0.2s;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: none; /* button要素との差異をなくすため追加 */
+  cursor: pointer; /* button要素との差異をなくすため追加 */
 }
 .menu-button:hover {
   background-color: #31b0d5;
@@ -66,10 +79,10 @@ body {
 .admin-button:hover {
   background-color: #c9302c;
 }
-.preformer-button {
+.performer-button { /* preformer -> performer にタイポ修正 */
   background-color: #ffc500;
 }
-.preformer-button:hover {
+.performer-button:hover {
   background-color: #ffa600;
 }
 
@@ -107,7 +120,7 @@ body {
   margin-bottom: 0.5em;
   font-weight: bold;
 }
-.form-group input, .form-group textarea {
+.form-group input,.form-group textarea {
   width: 95%;
   padding: 0.8em;
   font-size: 1em;
@@ -158,16 +171,16 @@ body {
 .status-draft {
   background-color: #f0ad4e; /* 下書き: オレンジ */
 }
-.band-card-body .info-group {
+.band-card-body.info-group {
   margin-bottom: 0.8em;
 }
-.band-card-body .info-group strong {
+.band-card-body.info-group strong {
   display: block;
   color: #555;
   font-size: 0.9em;
   margin-bottom: 0.3em;
 }
-.band-card-body .info-group p {
+.band-card-body.info-group p {
   margin: 0;
   padding-left: 1em;
   white-space: pre-wrap;
@@ -209,6 +222,11 @@ body {
   padding: 1em;
   border-left: 4px solid #ccc;
   margin-bottom: 0.8em;
+  display: flex;
+  align-items: center;
+}
+.log-item input[type="checkbox"] {
+  margin-right: 1em;
 }
 .log-time {
   display: block;
@@ -216,8 +234,35 @@ body {
   color: #777;
   margin-bottom: 0.3em;
 }
+.log-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+  padding: 0.8em;
+  background-color: #fff;
+  border-radius: 8px;
+}
+.select-all-label {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+.select-all-label input {
+  margin-right: 0.5em;
+}
+.delete-button {
+  padding: 0.6em 1.2em;
+  border: none;
+  border-radius: 5px;
+  background-color: #d9534f;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-/* --- 観客向けタイムテーブル (time.html) --- */
+/* --- 観客向けタイムテーブル (audience.html) --- */
 .band-item {
   background-color: #fff;
   border-radius: 8px;
@@ -231,23 +276,23 @@ body {
   margin: 0 0 0.5em 0;
   font-size: 1.6em;
 }
-.band-item .time {
+.band-item.time {
   font-weight: bold;
   color: #555;
   margin-bottom: 1em;
 }
-.band-item .comment {
+.band-item.comment {
   background-color: #f9f9f9;
   padding: 1em;
   border-radius: 5px;
   color: #333;
 }
-.band-item .setlist {
+.band-item.setlist {
   list-style-type: decimal;
   padding-left: 2em;
   margin: 1em 0 0 0;
 }
-.band-item .setlist li {
+.band-item.setlist li {
   padding: 0.3em 0;
   font-size: 1.1em;
 }
@@ -296,49 +341,10 @@ body {
 .toggle-content.is-hidden {
   display: none;
 }
-/* --- 更新ボタンのデザイン --- */
-.refresh-button {
-  padding: 0.5em 1.2em;
-  font-size: 0.9em;
-  font-weight: bold;
-  color: #5bc0de;
-  background-color: #fff;
-  border: 2px solid #5bc0de;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-left: auto; /* 右寄せにする */
-  margin-right: 1em; /* 右のリンクとの間隔 */
-}
-.refresh-button:hover {
-  background-color: #5bc0de;
-  color: #fff;
-}
-/* --- トグルボタンが開いている時のスタイル --- */
 .toggle-button.is-open {
   background-color: #e9e9e9;
 }
-/* --- ヘッダーボタンのデザイン --- */
-.header-button {
-  padding: 0.5em 1.2em;
-  font-size: 0.9em;
-  font-weight: bold;
-  color: #5bc0de;
-  background-color: #fff;
-  border: 2px solid #5bc0de;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-left: auto; /* 右寄せにする */
-}
-/* 更新ボタンと切り替えボタンの間に少しだけ間隔を設ける */
-#refresh-btn {
-  margin-left: 0.5em;
-}
-.header-button:hover {
-  background-color: #5bc0de;
-  color: #fff;
-}
+
 /* --- ヘッダーのデザイン調整 --- */
 .header-actions {
   margin-left: auto; /* 右寄せにする */
@@ -346,38 +352,18 @@ body {
   align-items: center;
   gap: 1em; /* 各要素の間隔 */
 }
-/* --- 更新履歴ページの削除機能 --- */
-.log-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1em;
-  padding: 0.8em;
+.header-button,.refresh-button {
+  padding: 0.5em 1.2em;
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #5bc0de;
   background-color: #fff;
-  border-radius: 8px;
-}
-.select-all-label {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
+  border: 2px solid #5bc0de;
+  border-radius: 20px;
   cursor: pointer;
+  transition: all 0.2s;
 }
-.select-all-label input {
-  margin-right: 0.5em;
-}
-.delete-button {
-  padding: 0.6em 1.2em;
-  border: none;
-  border-radius: 5px;
-  background-color: #d9534f;
+.header-button:hover,.refresh-button:hover {
+  background-color: #5bc0de;
   color: #fff;
-  cursor: pointer;
-  font-weight: bold;
-}
-.log-item {
-  display: flex;
-  align-items: center;
-}
-.log-item input[type="checkbox"] {
-  margin-right: 1em;
 }

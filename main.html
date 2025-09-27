@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>メインメニュー</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container main-menu-container">
+  <header class="main-header">
+    <h1 id="welcome-message">ようこそ</h1>
+  </header>
+
+  <div class="menu-button-container">
+    <!-- 権限に応じてJavaScriptでリンクを表示/非表示します -->
+    <a href="time.html" class="menu-button" id="link-audience" style="display: none;">本日のタイムテーブル（観客用）</a>
+    <a href="admin.html" class="menu-button admin-button" id="link-admin" style="display: none;">管理者ページ</a>
+    <a href="performer-list.html" class="menu-button performer-button" id="link-editor" style="display: none;">出演者コメント編集</a>
+    <button id="logoutButton" class="menu-button admin-button" style="margin-top: 2em;">ログアウト</button>
+  </div>
+</div>
+
+<!-- メインページの処理用JavaScriptを読み込む -->
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>

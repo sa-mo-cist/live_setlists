@@ -1,0 +1,39 @@
+[debug] [2025-09-26T02:40:56.041Z] ----------------------------------------------------------------------
+[debug] [2025-09-26T02:40:56.049Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Owner\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init hosting
+[debug] [2025-09-26T02:40:56.050Z] CLI Version:   14.17.0
+[debug] [2025-09-26T02:40:56.050Z] Platform:      win32
+[debug] [2025-09-26T02:40:56.050Z] Node Version:  v22.19.0
+[debug] [2025-09-26T02:40:56.051Z] Time:          Fri Sep 26 2025 11:40:56 GMT+0900 (日本標準時)
+[debug] [2025-09-26T02:40:56.052Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-09-26T02:40:56.646Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-26T02:40:56.647Z] > authorizing via signed-in user (saka.yoshi.05.0124@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Java\setlists_webapp\live_setlists
+
+Before we get started, keep in mind:
+
+  * You are currently outside your home directory
+  * You are initializing within an existing Firebase project directory
+
+[debug] [2025-09-26T02:42:11.512Z] ExitPromptError: User force closed the prompt with SIGINT
+    at Interface.sigint (C:\Users\Owner\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:101:37)
+    at Interface.emit (node:events:519:28)
+    at Interface.emit (node:domain:489:12)
+    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1132:18)
+    at ReadStream.onkeypress (node:internal/readline/interface:271:20)
+    at ReadStream.emit (node:events:531:35)
+    at ReadStream.emit (node:domain:489:12)
+    at emitKeys (node:internal/readline/utils:370:14)
+    at emitKeys.next (<anonymous>)
+    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+[error] 
+[error] Error: An unexpected error has occurred.
