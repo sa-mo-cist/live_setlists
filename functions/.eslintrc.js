@@ -1,28 +1,25 @@
 module.exports = {
-  env: {
-    es6: true,
-    node: true,
+  "env": {
+    "es2021": true,
+    "node": true,
   },
-  parserOptions: {
-    "ecmaVersion": 2018,
-  },
-  extends: [
+  "extends": [
     "eslint:recommended",
     "google",
   ],
-  rules: {
-    "no-restricted-globals": ["error", "name", "length"],
-    "prefer-arrow-callback": "error",
-    "quotes": ["error", "double", {"allowTemplateLiterals": true}],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
   },
-  overrides: [
-    {
-      files: ["**/*.spec.*"],
-      env: {
-        mocha: true,
-      },
-      rules: {},
-    },
-  ],
-  globals: {},
+  "rules": {
+    "linebreak-style": "off", // 改行コードのチェックを無効化
+    "quotes": ["error", "double"],
+    "max-len": ["error", {"code": 120}],
+    "require-jsdoc": "off",
+    "valid-jsdoc": "off",
+    "new-cap": "off",
+    "camelcase": "off",
+    "no-unused-vars": "warn",
+    "indent": "off",
+  },
 };

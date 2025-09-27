@@ -1,35 +1,21 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
-admin.initializeApp();
+const {onCall, HttpsError} = require("firebase-functions/v2/https");
+const {initializeApp} = require("firebase-admin/app");
+const {getAuth} = require("firebase-admin/auth");
 
-// "authenticate"という名前で、パスワードをチェックする関数を作成
-exports.authenticate = functions.https.onCall(async (data, context) => {
-  // Webサイトから送られてきたパスワードを受け取る
-  const password = data.password;
+initializeApp();
 
-  // ▼▼▼ パスワードと役割(role)の対応表 ▼▼▼
-  // この部分はサーバーにしかないので安全です。ご自身の好きなパスワードに変更してください。
+exports.authenticate = onCall(async (request) => {
+  const password = request.data.password;
   const passwords = {
-    "admin-pass-123": "admin", // 管理者用のパスワード
-    "performer-pass-456": "editor", // 出演者用のパスワード
-    // "audience-pass-789": "audience", // 観客用パスワードは不要なら消してもOK
-    "event-qr-code": "audience", // QRコード用の合言葉
+    "admin": "admin",
+    "performer": "editor",
+    "event-qr-code": "audience",
   };
-
   const role = passwords[password];
-
-  // もしパスワードが対応表になかったら、エラーを返す
   if (!role) {
-    throw new functions.https.HttpsError(
-        "unauthenticated", // エラーの種類
-        "パスワードが正しくありません。", // エラーメッセージ
-    );
+    throw new HttpsError("unauthenticated", "パスワードが正しくありません。");
   }
-
-  // パスワードが正しければ、その人専用の一時的な通行証（カスタムトークン）を発行
-  const uid = `user_${Date.now()}`; // ユーザーを識別するための一時的なID
-  const customToken = await admin.auth().createCustomToken(uid, {role: role});
-
-  // 通行証をWebサイト側に返す
+  const uid = `user_${Date.now()}`;
+  const customToken = await getAuth().createCustomToken(uid, {role});
   return {token: customToken};
 });

@@ -1,14 +1,28 @@
-import { auth, functions } from './firebase-config.js';
+// --- ▼▼▼ 修正箇所（すべてのインポートをここに集約） ▼▼▼ ---
+import { db, auth, functions } from './firebase-config.js';
 import { onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
+import { collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// --- ▲▲▲ 修正箇所 (ここまで) ▲▲▲ ---
+
+// --- ▼▼▼ HTML要素の取得（コードの先頭に移動） ▼▼▼ ---
+const liveBandContainer = document.getElementById('live-band-section');
+const nextBandContainer = document.getElementById('next-band-section');
+const upcomingList = document.getElementById('upcoming-bands-list');
+const finishedList = document.getElementById('finished-bands-list');
+const timetableContainer = document.getElementById('timetable-container');
+// --- ▲▲▲ HTML要素の取得 (ここまで) ▲▲▲ ---
+
 
 // --- ▼▼▼ 認証ガード (ここから) ▼▼▼ ---
 async function handleAuthentication() {
   const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get('token'); // QRコード用のトークン
+  // QRコードから渡されるパスワード（event-qr-code）を'token'として受け取る
+  const passwordFromQR = urlParams.get('token');
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
+      // すでにログインしている場合（管理者などが確認するケース）
       const idTokenResult = await user.getIdTokenResult();
       const role = idTokenResult.claims.role;
       if (role === 'audience' || role === 'admin') {
@@ -16,22 +30,25 @@ async function handleAuthentication() {
         await updateTimetable();
         setupToggles();
       } else {
-        // それ以外の権限ならハブページへ
+        // それ以外の権限ならメインメニューへ（観客には見えない）
         window.location.href = 'main.html';
       }
-    } else if (token) {
-      // 未ログインだがQRコードトークンがある場合
+    } else if (passwordFromQR) {
+      // 未ログインだがQRコードのパスワードがある場合
       try {
         const authenticate = httpsCallable(functions, 'authenticate');
-        const result = await authenticate({ password: token });
+        // サーバーにパスワードを渡して認証
+        const result = await authenticate({ password: passwordFromQR });
+        // 返ってきたカスタムトークンでサインイン
         await signInWithCustomToken(auth, result.data.token);
-        // URLからトークンを消してリロード
+        // URLからパスワード情報を消してページをリロード（セキュリティのため）
         window.location.search = '';
       } catch (e) {
+        // パスワードが不正な場合はログインページへ
         window.location.href = 'index.html';
       }
     } else {
-      // 未ログインかつトークンもない場合はログインページへ
+      // 未ログインかつパスワードもない場合はログインページへ
       window.location.href = 'index.html';
     }
   });
@@ -39,16 +56,7 @@ async function handleAuthentication() {
 // --- ▲▲▲ 認証ガード (ここまで) ▲▲▲ ---
 
 
-// --- ▼▼▼ これ以降は、あなたの既存のコードです ▼▼▼ ---
-import { db } from './firebase-config.js';
-import { collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const liveBandContainer = document.getElementById('live-band-section');
-const nextBandContainer = document.getElementById('next-band-section');
-const upcomingList = document.getElementById('upcoming-bands-list');
-const finishedList = document.getElementById('finished-bands-list');
-const timetableContainer = document.getElementById('timetable-container');
-
+// --- ▼▼▼ これ以降は、あなたの既存のコードです（変更なし） ▼▼▼ ---
 async function updateTimetable() {
   try {
     const now = new Date();

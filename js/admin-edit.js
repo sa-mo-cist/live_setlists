@@ -1,6 +1,24 @@
-import { db } from './firebase-config.js';
-import { doc, getDoc, updateDoc, Timestamp, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// 修正箇所１：'./firebase-config.js' から auth もインポートする
+import { db, auth } from './firebase-config.js';
 
+// 修正箇所２：Firestoreのインポートに加えて、Authの機能もインポートする
+import { doc, getDoc, updateDoc, Timestamp, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// --- ▼▼▼ 認証ガード (管理者用) ▼▼▼ ---
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const idTokenResult = await user.getIdTokenResult();
+    if (idTokenResult.claims.role !== 'admin') {
+      // 管理者でなければハブページへ
+      window.location.href = 'main.html';
+    }
+  } else {
+    // 未ログインならログインページへ
+    window.location.href = 'index.html';
+  }
+});
+// --- ▲▲▲ 認証ガード (ここまで) ▲▲▲ ---
 const form = document.getElementById('edit-band-form');
 const urlParams = new URLSearchParams(window.location.search);
 const bandId = urlParams.get('id');

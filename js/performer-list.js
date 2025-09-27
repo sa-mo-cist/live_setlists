@@ -1,6 +1,21 @@
-import { db } from './firebase-config.js';
+import { db, auth } from './firebase-config.js';
 import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// --- ▼▼▼ 認証ガード (出演者・管理者用) ▼▼▼ ---
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const idTokenResult = await user.getIdTokenResult();
+    const role = idTokenResult.claims.role;
+    if (role !== 'editor' && role !== 'admin') {
+      // 出演者か管理者でなければハブページへ
+      window.location.href = 'main.html';
+    }
+  } else {
+    // 未ログインならログインページへ
+    window.location.href = 'index.html';
+  }
+});
+// --- ▲▲▲ 認証ガード (ここまで) ▲▲▲ ---
 const bandListContainer = document.getElementById('band-list-container');
 
 async function displayBandList() {
@@ -34,6 +49,10 @@ async function displayBandList() {
           <div class="info-group">
             <strong>日時:</strong>
             <p>${dateString} ${eventDate.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })} - ${bandData.endTime.toDate().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}</p>
+          </div>
+          <div class="info-group">
+            <strong>コメント:</strong>
+            <p>${bandData.comment}</p>
           </div>
         </div>
         <div class="band-card-actions">
